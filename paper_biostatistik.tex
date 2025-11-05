@@ -1,0 +1,456 @@
+\documentclass[conference]{IEEEtran}
+\IEEEoverridecommandlockouts
+
+\usepackage{cite}
+\usepackage{amsmath,amssymb,amsfonts}
+\usepackage{algorithmic}
+\usepackage{graphicx}
+\usepackage{textcomp}
+\usepackage{xcolor}
+\usepackage[indonesian]{babel}
+\usepackage{booktabs}
+\usepackage{multirow}
+
+\def\BibTeX{{\rm B\kern-.05em{\sc i\kern-.025em b}\kern-.08em
+    T\kern-.1667em\lower.7ex\hbox{E}\kern-.125emX}}
+
+\begin{document}
+
+\title{Analisis Biostatistik Perbandingan Data Time Series antara Kelompok Normal dan Abnormal}
+
+\author{\IEEEauthorblockN{Nama Penulis Pertama}
+\IEEEauthorblockA{\textit{Program Studi Biostatistik} \\
+\textit{Nama Universitas}\\
+Kota, Indonesia \\
+email@example.com}
+\and
+\IEEEauthorblockN{Nama Penulis Kedua}
+\IEEEauthorblockA{\textit{Program Studi Biostatistik} \\
+\textit{Nama Universitas}\\
+Kota, Indonesia \\
+email@example.com}
+\and
+\IEEEauthorblockN{Nama Penulis Ketiga}
+\IEEEauthorblockA{\textit{Program Studi Biostatistik} \\
+\textit{Nama Universitas}\\
+Kota, Indonesia \\
+email@example.com}
+}
+
+\maketitle
+
+\begin{abstract}
+Penelitian ini bertujuan untuk menganalisis perbedaan karakteristik data time series antara kelompok normal dan abnormal menggunakan pendekatan biostatistik. Dataset yang digunakan terdiri dari 54 subjek dengan pengukuran time series sebanyak 682 titik waktu per subjek. Analisis meliputi statistik deskriptif, uji normalitas (Shapiro-Wilk), uji homogenitas varians (Levene's test), dan uji perbedaan kelompok. Hasil analisis menunjukkan distribusi data, karakteristik statistik setiap kelompok, serta signifikansi perbedaan antara kedua kelompok. Penelitian ini memberikan wawasan penting mengenai karakteristik data biomedis time series dan metode analisis statistik yang sesuai untuk data tersebut.
+\end{abstract}
+
+\begin{IEEEkeywords}
+biostatistik, time series, uji hipotesis, normalitas, data medis
+\end{IEEEkeywords}
+
+\section{Pendahuluan}
+
+Analisis data time series dalam bidang biomedis memiliki peran penting dalam memahami pola dan karakteristik kondisi fisiologis subjek penelitian \cite{ref1}. Data time series biomedis, seperti data elektrokardiogram (EKG), elektroensefalogram (EEG), atau pengukuran fisiologis lainnya, seringkali memerlukan analisis statistik yang komprehensif untuk mengidentifikasi perbedaan antara kondisi normal dan abnormal.
+
+Dalam konteks analisis biostatistik, pemilihan metode uji yang tepat sangat bergantung pada karakteristik distribusi data. Uji parametrik seperti t-test dapat digunakan apabila data memenuhi asumsi normalitas dan homogenitas varians, sedangkan uji non-parametrik seperti Mann-Whitney U test lebih sesuai untuk data yang tidak berdistribusi normal \cite{ref2}.
+
+Penelitian ini bertujuan untuk:
+\begin{itemize}
+    \item Menganalisis karakteristik statistik deskriptif data time series dari kelompok normal dan abnormal
+    \item Menguji normalitas distribusi data menggunakan uji Shapiro-Wilk
+    \item Menguji homogenitas varians menggunakan Levene's test
+    \item Menguji perbedaan signifikan antara kedua kelompok menggunakan metode statistik yang sesuai
+    \item Menghitung effect size untuk mengetahui besaran perbedaan praktis
+\end{itemize}
+
+\section{Metode Penelitian}
+
+\subsection{Dataset}
+
+Dataset yang digunakan dalam penelitian ini terdiri dari:
+\begin{itemize}
+    \item Jumlah subjek: 54 subjek
+    \item Jumlah titik pengukuran: 682 titik waktu per subjek
+    \item Variabel kategori: labels (normal/abnormal)
+    \item Variabel identifikasi: subject ID
+\end{itemize}
+
+\subsection{Preprocessing Data}
+
+Tahapan preprocessing data meliputi:
+\begin{enumerate}
+    \item Loading dataset dari file CSV
+    \item Identifikasi missing values (NaN)
+    \item Perhitungan rata-rata pengukuran untuk setiap subjek
+    \item Pengelompokan data berdasarkan label (normal/abnormal)
+\end{enumerate}
+
+\subsection{Metode Analisis Statistik}
+
+\subsubsection{Statistik Deskriptif}
+
+Statistik deskriptif dihitung untuk setiap kelompok meliputi:
+\begin{itemize}
+    \item Ukuran pemusatan: mean, median
+    \item Ukuran penyebaran: standar deviasi, range, kuartil
+    \item Ukuran bentuk distribusi: skewness, kurtosis
+\end{itemize}
+
+\subsubsection{Uji Normalitas}
+
+Uji normalitas dilakukan menggunakan Shapiro-Wilk test dengan hipotesis:
+\begin{itemize}
+    \item $H_0$: Data berdistribusi normal
+    \item $H_1$: Data tidak berdistribusi normal
+    \item Tingkat signifikansi: $\alpha = 0.05$
+\end{itemize}
+
+\subsubsection{Uji Homogenitas Varians}
+
+Uji homogenitas varians dilakukan menggunakan Levene's test dengan hipotesis:
+\begin{itemize}
+    \item $H_0$: Varians kedua kelompok homogen
+    \item $H_1$: Varians kedua kelompok tidak homogen
+    \item Tingkat signifikansi: $\alpha = 0.05$
+\end{itemize}
+
+\subsubsection{Uji Perbedaan Kelompok}
+
+Pemilihan uji perbedaan kelompok disesuaikan dengan hasil uji normalitas dan homogenitas:
+\begin{itemize}
+    \item Jika data normal dan varians homogen: Independent t-test
+    \item Jika data normal dan varians tidak homogen: Welch's t-test
+    \item Jika data tidak normal: Mann-Whitney U test
+\end{itemize}
+
+Hipotesis uji:
+\begin{itemize}
+    \item $H_0$: Tidak ada perbedaan antara kelompok normal dan abnormal
+    \item $H_1$: Ada perbedaan antara kelompok normal dan abnormal
+    \item Tingkat signifikansi: $\alpha = 0.05$
+\end{itemize}
+
+\subsubsection{Effect Size}
+
+Effect size dihitung menggunakan Cohen's d:
+\begin{equation}
+d = \frac{\bar{x}_1 - \bar{x}_2}{s_{pooled}}
+\end{equation}
+
+dimana $s_{pooled}$ adalah standar deviasi gabungan:
+\begin{equation}
+s_{pooled} = \sqrt{\frac{(n_1-1)s_1^2 + (n_2-1)s_2^2}{n_1 + n_2 - 2}}
+\end{equation}
+
+Interpretasi Cohen's d:
+\begin{itemize}
+    \item $|d| < 0.2$: effect size sangat kecil (negligible)
+    \item $0.2 \leq |d| < 0.5$: effect size kecil (small)
+    \item $0.5 \leq |d| < 0.8$: effect size sedang (medium)
+    \item $|d| \geq 0.8$: effect size besar (large)
+\end{itemize}
+
+\subsection{Tools dan Software}
+
+Analisis dilakukan menggunakan Python 3.x dengan library:
+\begin{itemize}
+    \item pandas: manipulasi dan analisis data
+    \item numpy: komputasi numerik
+    \item scipy: uji statistik
+    \item matplotlib dan seaborn: visualisasi data
+\end{itemize}
+
+\section{Hasil dan Pembahasan}
+
+\subsection{Informasi Dataset}
+
+Hasil loading dan eksplorasi awal dataset menunjukkan:
+\begin{itemize}
+    \item Total subjek: 54 subjek
+    \item Jumlah variabel: 684 variabel (2 variabel identifikasi + 682 titik pengukuran)
+\end{itemize}
+
+\textbf{Catatan:} Isi bagian ini dengan hasil output dari program Python yang telah dijalankan.
+
+\subsection{Distribusi Label}
+
+Distribusi subjek berdasarkan label menunjukkan proporsi kelompok normal dan abnormal dalam dataset.
+
+\textbf{Tabel \ref{tab:distribusi}} akan berisi:
+\begin{table}[htbp]
+\caption{Distribusi Label Dataset}
+\begin{center}
+\begin{tabular}{lcc}
+\toprule
+\textbf{Label} & \textbf{Jumlah} & \textbf{Persentase (\%)} \\
+\midrule
+Normal & [ISI DARI OUTPUT] & [ISI DARI OUTPUT] \\
+Abnormal & [ISI DARI OUTPUT] & [ISI DARI OUTPUT] \\
+\midrule
+Total & 54 & 100.00 \\
+\bottomrule
+\end{tabular}
+\label{tab:distribusi}
+\end{center}
+\end{table}
+
+\subsection{Statistik Deskriptif}
+
+Tabel \ref{tab:deskriptif} menyajikan statistik deskriptif untuk setiap kelompok.
+
+\begin{table}[htbp]
+\caption{Statistik Deskriptif per Kelompok}
+\begin{center}
+\begin{tabular}{lcc}
+\toprule
+\textbf{Statistik} & \textbf{Normal} & \textbf{Abnormal} \\
+\midrule
+Jumlah subjek & [OUTPUT] & [OUTPUT] \\
+Mean & [OUTPUT] & [OUTPUT] \\
+Median & [OUTPUT] & [OUTPUT] \\
+Std. Deviasi & [OUTPUT] & [OUTPUT] \\
+Minimum & [OUTPUT] & [OUTPUT] \\
+Q1 & [OUTPUT] & [OUTPUT] \\
+Q3 & [OUTPUT] & [OUTPUT] \\
+Maksimum & [OUTPUT] & [OUTPUT] \\
+Range & [OUTPUT] & [OUTPUT] \\
+Skewness & [OUTPUT] & [OUTPUT] \\
+Kurtosis & [OUTPUT] & [OUTPUT] \\
+\bottomrule
+\end{tabular}
+\label{tab:deskriptif}
+\end{center}
+\end{table}
+
+\textbf{Interpretasi:}
+Berdasarkan tabel statistik deskriptif di atas, dapat dilihat bahwa [INTERPRETASI BERDASARKAN NILAI MEAN, MEDIAN, DAN SEBARAN DATA].
+
+\subsection{Hasil Uji Normalitas}
+
+Uji normalitas Shapiro-Wilk dilakukan untuk setiap kelompok dengan hasil pada Tabel \ref{tab:normalitas}.
+
+\begin{table}[htbp]
+\caption{Hasil Uji Normalitas Shapiro-Wilk}
+\begin{center}
+\begin{tabular}{lccc}
+\toprule
+\textbf{Kelompok} & \textbf{Statistik W} & \textbf{P-value} & \textbf{Kesimpulan} \\
+\midrule
+Normal & [OUTPUT] & [OUTPUT] & [Normal/Tidak Normal] \\
+Abnormal & [OUTPUT] & [OUTPUT] & [Normal/Tidak Normal] \\
+\bottomrule
+\end{tabular}
+\label{tab:normalitas}
+\end{center}
+\end{table}
+
+\textbf{Interpretasi:}
+Dengan tingkat signifikansi $\alpha = 0.05$, [JELASKAN HASIL - APAKAH DATA NORMAL ATAU TIDAK DAN IMPLIKASINYA].
+
+\subsection{Hasil Uji Homogenitas Varians}
+
+Hasil Levene's test untuk homogenitas varians disajikan pada Tabel \ref{tab:levene}.
+
+\begin{table}[htbp]
+\caption{Hasil Uji Homogenitas Varians (Levene's Test)}
+\begin{center}
+\begin{tabular}{ccc}
+\toprule
+\textbf{Statistik Levene} & \textbf{P-value} & \textbf{Kesimpulan} \\
+\midrule
+[OUTPUT] & [OUTPUT] & [Homogen/Tidak Homogen] \\
+\bottomrule
+\end{tabular}
+\label{tab:levene}
+\end{center}
+\end{table}
+
+\textbf{Interpretasi:}
+[JELASKAN APAKAH VARIANS HOMOGEN ATAU TIDAK DAN IMPLIKASINYA UNTUK PEMILIHAN UJI].
+
+\subsection{Hasil Uji Perbedaan Kelompok}
+
+Berdasarkan hasil uji normalitas dan homogenitas, dipilih [NAMA UJI] untuk menguji perbedaan antara kedua kelompok. Hasil uji disajikan pada Tabel \ref{tab:uji_perbedaan}.
+
+\begin{table}[htbp]
+\caption{Hasil Uji Perbedaan Kelompok}
+\begin{center}
+\begin{tabular}{lc}
+\toprule
+\textbf{Parameter} & \textbf{Nilai} \\
+\midrule
+Metode Uji & [NAMA UJI] \\
+Statistik Uji & [OUTPUT] \\
+P-value & [OUTPUT] \\
+Tingkat Signifikansi & 0.05 \\
+Kesimpulan & [Signifikan/Tidak Signifikan] \\
+\bottomrule
+\end{tabular}
+\label{tab:uji_perbedaan}
+\end{center}
+\end{table}
+
+\textbf{Interpretasi:}
+[JELASKAN APAKAH ADA PERBEDAAN SIGNIFIKAN ATAU TIDAK DAN MAKNA PRAKTISNYA].
+
+\subsection{Effect Size}
+
+Tabel \ref{tab:effect_size} menyajikan nilai Cohen's d sebagai ukuran effect size.
+
+\begin{table}[htbp]
+\caption{Effect Size (Cohen's d)}
+\begin{center}
+\begin{tabular}{lcc}
+\toprule
+\textbf{Metrik} & \textbf{Nilai} & \textbf{Interpretasi} \\
+\midrule
+Cohen's d & [OUTPUT] & [Kecil/Sedang/Besar] \\
+\bottomrule
+\end{tabular}
+\label{tab:effect_size}
+\end{center}
+\end{table}
+
+\textbf{Interpretasi:}
+Nilai Cohen's d sebesar [NILAI] menunjukkan effect size yang [UKURAN], yang berarti [JELASKAN MAKNA PRAKTIS].
+
+\subsection{Confidence Interval}
+
+Tabel \ref{tab:ci} menyajikan confidence interval 95\% untuk rata-rata setiap kelompok.
+
+\begin{table}[htbp]
+\caption{Confidence Interval 95\%}
+\begin{center}
+\begin{tabular}{lcc}
+\toprule
+\textbf{Kelompok} & \textbf{Mean} & \textbf{95\% CI} \\
+\midrule
+Normal & [OUTPUT] & [[OUTPUT], [OUTPUT]] \\
+Abnormal & [OUTPUT] & [[OUTPUT], [OUTPUT]] \\
+\bottomrule
+\end{tabular}
+\label{tab:ci}
+\end{center}
+\end{table}
+
+\textbf{Interpretasi:}
+Dengan tingkat kepercayaan 95\%, [JELASKAN INTERPRETASI CI].
+
+\subsection{Visualisasi Data}
+
+\begin{figure}[htbp]
+\centerline{\includegraphics[width=\columnwidth]{hasil_analisis_biostatistik.png}}
+\caption{Visualisasi Komprehensif Analisis Data: (a) Boxplot perbandingan, (b) Histogram distribusi, (c) Violin plot, (d) Bar plot dengan error bars, (e) Q-Q plot normalitas, (f) Contoh time series}
+\label{fig:visualisasi}
+\end{figure}
+
+Gambar \ref{fig:visualisasi} menunjukkan berbagai visualisasi data yang memberikan gambaran komprehensif tentang distribusi dan karakteristik data. Boxplot (a) menunjukkan perbandingan distribusi nilai rata-rata antara kedua kelompok. Histogram (b) dan violin plot (c) memberikan informasi detail tentang bentuk distribusi. Bar plot dengan error bars (d) menunjukkan rata-rata dan standar deviasi. Q-Q plot (e) digunakan untuk menilai normalitas data secara visual. Contoh time series (f) menunjukkan pola temporal data untuk satu subjek dari setiap kelompok.
+
+\begin{figure}[htbp]
+\centerline{\includegraphics[width=\columnwidth]{heatmap_timeseries.png}}
+\caption{Heatmap data time series menunjukkan pola temporal untuk 20 subjek pertama}
+\label{fig:heatmap}
+\end{figure}
+
+Gambar \ref{fig:heatmap} menampilkan heatmap data time series yang memberikan visualisasi pola temporal data. Warna yang lebih hangat (merah) menunjukkan nilai yang lebih tinggi, sedangkan warna yang lebih dingin (biru) menunjukkan nilai yang lebih rendah.
+
+\begin{figure}[htbp]
+\centerline{\includegraphics[width=\columnwidth]{scatter_plot_subjects.png}}
+\caption{Scatter plot menunjukkan distribusi rata-rata pengukuran untuk setiap subjek}
+\label{fig:scatter}
+\end{figure}
+
+Gambar \ref{fig:scatter} menunjukkan distribusi nilai rata-rata pengukuran untuk setiap subjek, dengan warna berbeda untuk setiap kelompok, memungkinkan identifikasi pola dan outlier potensial.
+
+\section{Pembahasan}
+
+\subsection{Temuan Utama}
+
+Penelitian ini menghasilkan beberapa temuan penting:
+
+\begin{enumerate}
+    \item \textbf{Karakteristik Distribusi}: [ISI BERDASARKAN HASIL - APAKAH DATA NORMAL ATAU TIDAK]
+
+    \item \textbf{Homogenitas Varians}: [ISI BERDASARKAN HASIL - APAKAH VARIANS HOMOGEN ATAU TIDAK]
+
+    \item \textbf{Perbedaan Kelompok}: [ISI BERDASARKAN HASIL - APAKAH ADA PERBEDAAN SIGNIFIKAN]
+
+    \item \textbf{Ukuran Efek}: Effect size yang ditemukan menunjukkan [INTERPRETASI PRAKTIS BERDASARKAN COHEN'S D]
+\end{enumerate}
+
+\subsection{Implikasi Metodologis}
+
+Pemilihan metode uji statistik yang tepat sangat penting dalam analisis biostatistik. Dalam penelitian ini:
+
+\begin{itemize}
+    \item Uji normalitas membantu menentukan apakah data memenuhi asumsi untuk uji parametrik
+    \item Uji homogenitas varians menentukan varian uji t yang akan digunakan
+    \item Penggunaan effect size melengkapi interpretasi signifikansi statistik dengan signifikansi praktis
+\end{itemize}
+
+\subsection{Implikasi Klinis/Praktis}
+
+[ISI BAGIAN INI DENGAN INTERPRETASI PRAKTIS DARI HASIL, MISALNYA:
+- Apa makna perbedaan (atau ketiadaan perbedaan) antara kelompok normal dan abnormal?
+- Bagaimana temuan ini dapat digunakan dalam konteks klinis atau penelitian lanjutan?]
+
+\subsection{Keterbatasan Penelitian}
+
+Beberapa keterbatasan dalam penelitian ini meliputi:
+
+\begin{itemize}
+    \item Ukuran sampel yang terbatas (54 subjek)
+    \item Analisis hanya berfokus pada perbandingan dua kelompok
+    \item Tidak dilakukan analisis time series yang lebih mendalam (seperti analisis spektral atau autokorelasi)
+    \item Missing values dalam data time series perlu dipertimbangkan dalam interpretasi
+\end{itemize}
+
+\section{Kesimpulan}
+
+Penelitian ini telah melakukan analisis biostatistik komprehensif terhadap data time series dari 54 subjek yang dibagi dalam kelompok normal dan abnormal. Berdasarkan hasil analisis:
+
+\begin{enumerate}
+    \item Statistik deskriptif menunjukkan [RINGKASAN KARAKTERISTIK DATA]
+
+    \item Uji normalitas Shapiro-Wilk menunjukkan [HASIL NORMALITAS]
+
+    \item Uji homogenitas varians Levene menunjukkan [HASIL HOMOGENITAS]
+
+    \item Uji perbedaan kelompok menunjukkan [HASIL PERBEDAAN DAN SIGNIFIKANSI]
+
+    \item Effect size Cohen's d sebesar [NILAI] menunjukkan [INTERPRETASI UKURAN EFEK]
+\end{enumerate}
+
+Temuan ini memberikan pemahaman yang lebih baik tentang karakteristik data biomedis time series dan dapat menjadi dasar untuk penelitian lanjutan yang lebih mendalam.
+
+\subsection{Saran untuk Penelitian Lanjutan}
+
+\begin{itemize}
+    \item Analisis time series yang lebih mendalam menggunakan metode spektral atau wavelet
+    \item Penerapan machine learning untuk klasifikasi otomatis
+    \item Investigasi faktor-faktor yang mempengaruhi perbedaan antara kelompok
+    \item Validasi temuan dengan dataset yang lebih besar
+\end{itemize}
+
+\section*{Ucapan Terima Kasih}
+
+Penulis mengucapkan terima kasih kepada [NAMA INSTITUSI/PEMBIMBING] atas dukungan dan bimbingan dalam penelitian ini.
+
+\begin{thebibliography}{00}
+\bibitem{ref1} M. Malik et al., ``Heart rate variability: Standards of measurement, physiological interpretation, and clinical use,'' \textit{European Heart Journal}, vol. 17, no. 3, pp. 354--381, 1996.
+
+\bibitem{ref2} D. J. Sheskin, \textit{Handbook of Parametric and Nonparametric Statistical Procedures}, 5th ed. Boca Raton, FL: Chapman and Hall/CRC, 2011.
+
+\bibitem{ref3} J. Cohen, \textit{Statistical Power Analysis for the Behavioral Sciences}, 2nd ed. Hillsdale, NJ: Lawrence Erlbaum Associates, 1988.
+
+\bibitem{ref4} A. Field, \textit{Discovering Statistics Using IBM SPSS Statistics}, 5th ed. London: SAGE Publications, 2018.
+
+\bibitem{ref5} G. D. Clifford, F. Azuaje, and P. E. McSharry, \textit{Advanced Methods and Tools for ECG Data Analysis}. Norwood, MA: Artech House, 2006.
+
+\bibitem{ref6} R. H. Shumway and D. S. Stoffer, \textit{Time Series Analysis and Its Applications: With R Examples}, 4th ed. New York: Springer, 2017.
+
+\bibitem{ref7} S. S. Shapiro and M. B. Wilk, ``An analysis of variance test for normality (complete samples),'' \textit{Biometrika}, vol. 52, no. 3/4, pp. 591--611, 1965.
+
+\bibitem{ref8} H. Levene, ``Robust tests for equality of variances,'' in \textit{Contributions to Probability and Statistics}, I. Olkin et al., Eds. Palo Alto, CA: Stanford University Press, 1960, pp. 278--292.
+\end{thebibliography}
+
+\end{document}
